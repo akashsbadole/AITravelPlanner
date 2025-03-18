@@ -22,7 +22,7 @@ export async function generateDestinations(preferences: {
   travelStyle: string;
   country?: string;
   state?: string;
-}) {
+}, p0: number) {
   const locationPrompt = preferences.country
     ? `in ${preferences.country}${preferences.state ? `, specifically in ${preferences.state}` : ''}`
     : 'worldwide';

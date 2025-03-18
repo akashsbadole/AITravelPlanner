@@ -1,13 +1,16 @@
-import React from 'react';
-import { Destination } from '../types';
-import { MapPin, Cloud, Wallet } from 'lucide-react';
+import React from "react";
+import { Destination } from "../types";
+import { MapPin, Cloud, Wallet } from "lucide-react";
 
 interface DestinationCardProps {
   destination: Destination;
   onSelect: (destination: Destination) => void;
 }
 
-export default function DestinationCard({ destination, onSelect }: DestinationCardProps) {
+export default function DestinationCard({
+  destination,
+  onSelect,
+}: DestinationCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <img
@@ -18,12 +21,12 @@ export default function DestinationCard({ destination, onSelect }: DestinationCa
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-2">{destination.name}</h3>
         <p className="text-gray-600 mb-4">{destination.description}</p>
-        
+
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-gray-500" />
             <span className="text-sm">
-              {destination.state 
+              {destination.state
                 ? `${destination.state}, ${destination.country}`
                 : destination.country}
             </span>
