@@ -1,7 +1,19 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { Destination } from '../types';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+function cleanAndParseJSON(text: string) {
+  // Remove markdown code blocks if present
+  const jsonString = text.replace(/```(json)?\n?/g, '').trim();
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+    throw error;
+  }
+}
 
 export async function generateDestinations(preferences: {
   budget: string;
@@ -11,7 +23,7 @@ export async function generateDestinations(preferences: {
   country?: string;
   state?: string;
 }) {
-  const locationPrompt = preferences.country 
+  const locationPrompt = preferences.country
     ? `in ${preferences.country}${preferences.state ? `, specifically in ${preferences.state}` : ''}`
     : 'worldwide';
 
@@ -36,7 +48,7 @@ export async function generateDestinations(preferences: {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    return JSON.parse(text);
+    return cleanAndParseJSON(text);
   } catch (error) {
     console.error('Error generating destinations:', error);
     return [];
@@ -52,7 +64,7 @@ export async function generateItinerary(destination: string, duration: number, i
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    return JSON.parse(text);
+    return cleanAndParseJSON(text);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return [];
@@ -75,7 +87,7 @@ export async function recommendAccommodations(destination: string, budget: strin
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    return JSON.parse(text);
+    return cleanAndParseJSON(text);
   } catch (error) {
     console.error('Error recommending accommodations:', error);
     return [];
@@ -84,8 +96,8 @@ export async function recommendAccommodations(destination: string, budget: strin
 
 export async function generateEmailContent(
   destination: Destination,
-  itineraries: Itinerary[],
-  accommodations: Accommodation[]
+  // itineraries: Itinerary[],
+  // accommodations: Accommodation[]
 ) {
   const prompt = `Create a detailed email summary for a trip to ${destination.name}.
     Include:
