@@ -3,11 +3,14 @@ export interface Destination {
   name: string;
   description: string;
   image: string;
-  weather: string;
   budget: string;
   activities: string[];
   country: string;
   state?: string;
+  weather: {
+    description: string;
+    temperature: string;
+  };
 }
 
 export interface UserPreferences {

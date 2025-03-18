@@ -46,7 +46,10 @@ export default function DestinationCard({
           </div>
           <div className="flex items-center gap-2">
             <Cloud className="w-4 h-4 text-gray-500" />
-            <span className="text-sm">{destination.weather}</span>
+            <span className="text-sm">
+              Weather: {destination.weather.description}, Temperature:{" "}
+              {destination.weather.temperature}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Wallet className="w-4 h-4 text-gray-500" />

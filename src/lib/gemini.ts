@@ -15,6 +15,16 @@ function cleanAndParseJSON(text: string) {
   }
 }
 
+function removeDuplicateDestinations(destinations: Destination[]) {
+  const uniqueDestinations = new Map();
+  destinations.forEach(destination => {
+    if (!uniqueDestinations.has(destination.name)) {
+      uniqueDestinations.set(destination.name, destination);
+    }
+  });
+  return Array.from(uniqueDestinations.values());
+}
+
 export async function generateDestinations(preferences: {
   budget: string;
   interests: string[];
@@ -48,7 +58,8 @@ export async function generateDestinations(preferences: {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    return cleanAndParseJSON(text);
+    const destinations = cleanAndParseJSON(text);
+    return removeDuplicateDestinations(destinations);
   } catch (error) {
     console.error('Error generating destinations:', error);
     return [];
