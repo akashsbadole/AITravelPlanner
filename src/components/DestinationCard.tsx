@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Destination } from "../types";
 import { MapPin, Cloud, Wallet } from "lucide-react";
+import { fetchImageFromPexels } from "../api/pexelsApi";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -11,10 +12,22 @@ export default function DestinationCard({
   destination,
   onSelect,
 }: DestinationCardProps) {
+  const [imageUrl, setImageUrl] = useState(destination.image);
+
+  useEffect(() => {
+    if (!destination.image) {
+      fetchImageFromPexels(destination.name).then((url) => {
+        if (url) {
+          setImageUrl(url);
+        }
+      });
+    }
+  }, [destination]);
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <img
-        src={destination.image}
+        src={imageUrl}
         alt={destination.name}
         className="w-full h-48 object-cover"
       />

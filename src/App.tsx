@@ -26,8 +26,16 @@ function App() {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [loading, setLoading] = useState(false);
+  const defaultPreferences: UserPreferences = {
+    country: "India",
+    state: "Maharashtra",
+    budget: "Medium",
+    interests: ["Nature"],
+    duration: 4,
+    travelStyle: "Balanced",
+  };
   const [userPreferences, setUserPreferences] =
-    useState<UserPreferences | null>(null);
+    useState<UserPreferences | null>(defaultPreferences);
   const [page, setPage] = useState(1);
   const [noMoreDestinations, setNoMoreDestinations] = useState(false);
 
@@ -197,7 +205,10 @@ function App() {
               <h2 className="text-2xl font-bold mb-6">
                 Tell us about your dream trip
               </h2>
-              <PreferencesForm onSubmit={handlePreferencesSubmit} />
+              <PreferencesForm
+                onSubmit={handlePreferencesSubmit}
+                defaultValues={defaultPreferences}
+              />
             </div>
           </div>
         )}

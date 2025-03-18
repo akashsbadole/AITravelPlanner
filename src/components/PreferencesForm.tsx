@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
-import { UserPreferences } from '../types';
-import { Sliders, Heart, Clock, Compass, Globe, Mail } from 'lucide-react';
+import React, { useState } from "react";
+import { UserPreferences } from "../types";
+import { Sliders, Heart, Clock, Compass, Globe, Mail } from "lucide-react";
 
 interface PreferencesFormProps {
   onSubmit: (preferences: UserPreferences) => void;
+  defaultValues: UserPreferences;
 }
 
-export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
-  const [preferences, setPreferences] = useState<UserPreferences>({
-    budget: 'medium',
-    interests: [],
-    duration: 7,
-    travelStyle: 'balanced',
-    country: '',
-    state: '',
-    email: ''
-  });
+export default function PreferencesForm({
+  onSubmit,
+  defaultValues,
+}: PreferencesFormProps) {
+  const [preferences, setPreferences] =
+    useState<UserPreferences>(defaultValues);
+  const [error, setError] = useState<string | null>(null);
 
   const interests = [
-    'Culture', 'Nature', 'Adventure', 'Food', 
-    'History', 'Relaxation', 'Shopping', 'Nightlife'
+    "Culture",
+    "Nature",
+    "Adventure",
+    "Food",
+    "History",
+    "Relaxation",
+    "Shopping",
+    "Nightlife",
   ];
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setPreferences((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(preferences);
+    try {
+      onSubmit(preferences);
+      setError(null); // Clear any previous errors
+    } catch (err) {
+      setError(
+        "An error occurred while submitting the form. Please try again."
+      );
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {error && <div className="text-red-600 font-semibold">{error}</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="flex items-center gap-2 text-lg font-semibold mb-2">
@@ -37,8 +56,9 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
           </label>
           <input
             type="text"
+            name="country"
             value={preferences.country}
-            onChange={(e) => setPreferences({ ...preferences, country: e.target.value })}
+            onChange={handleChange}
             placeholder="Enter country name"
             className="w-full p-2 border rounded-lg"
           />
@@ -51,8 +71,9 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
           </label>
           <input
             type="text"
+            name="state"
             value={preferences.state}
-            onChange={(e) => setPreferences({ ...preferences, state: e.target.value })}
+            onChange={handleChange}
             placeholder="Enter state or region"
             className="w-full p-2 border rounded-lg"
           />
@@ -65,8 +86,9 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
           Budget Range
         </label>
         <select
+          name="budget"
           value={preferences.budget}
-          onChange={(e) => setPreferences({ ...preferences, budget: e.target.value })}
+          onChange={handleChange}
           className="w-full p-2 border rounded-lg"
         >
           <option value="budget">Budget</option>
@@ -89,7 +111,7 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
                 onChange={(e) => {
                   const newInterests = e.target.checked
                     ? [...preferences.interests, interest]
-                    : preferences.interests.filter(i => i !== interest);
+                    : preferences.interests.filter((i) => i !== interest);
                   setPreferences({ ...preferences, interests: newInterests });
                 }}
                 className="rounded"
@@ -107,10 +129,11 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
         </label>
         <input
           type="number"
+          name="duration"
           min="1"
           max="30"
           value={preferences.duration}
-          onChange={(e) => setPreferences({ ...preferences, duration: parseInt(e.target.value) })}
+          onChange={handleChange}
           className="w-full p-2 border rounded-lg"
         />
       </div>
@@ -121,8 +144,9 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
           Travel Style
         </label>
         <select
+          name="travelStyle"
           value={preferences.travelStyle}
-          onChange={(e) => setPreferences({ ...preferences, travelStyle: e.target.value })}
+          onChange={handleChange}
           className="w-full p-2 border rounded-lg"
         >
           <option value="relaxed">Relaxed</option>
@@ -138,8 +162,9 @@ export default function PreferencesForm({ onSubmit }: PreferencesFormProps) {
         </label>
         <input
           type="email"
+          name="email"
           value={preferences.email}
-          onChange={(e) => setPreferences({ ...preferences, email: e.target.value })}
+          onChange={handleChange}
           placeholder="Enter your email to receive recommendations"
           className="w-full p-2 border rounded-lg"
         />
