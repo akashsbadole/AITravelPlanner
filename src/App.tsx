@@ -145,22 +145,27 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-col sm:flex-row">
             <div className="flex items-center">
               <Plane className="w-8 h-8 text-blue-600" />
               <h1 className="ml-2 text-2xl font-bold text-gray-900">
-                <a href="/">AI Travel Planner</a>
+                <a href="/" className="block sm:hidden">
+                  AITravel
+                </a>
+                <a href="/" className="hidden sm:block">
+                  AI Travel Planner
+                </a>
               </h1>
             </div>
 
-            <nav className="flex space-x-4">
+            <nav className="flex sm:flex-row flex-wrap space-x-4 sm:space-x-0 sm:flex-wrap text-sm flex-col sm:items-end sm:mt-4">
               <button
                 onClick={() => setActiveTab("preferences")}
                 className={`px-3 py-2 rounded-md ${
                   activeTab === "preferences"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                }`}
+                } sm:mr-2`}
               >
                 Preferences
               </button>
@@ -170,7 +175,7 @@ function App() {
                   activeTab === "destinations"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                }`}
+                } sm:mr-2`}
               >
                 Destinations
               </button>
@@ -180,7 +185,7 @@ function App() {
                   activeTab === "accommodations"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                }`}
+                } sm:mr-2`}
               >
                 Accommodations
               </button>
