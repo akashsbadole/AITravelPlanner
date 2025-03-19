@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Plane, Map, Bed, Loader2 } from "lucide-react";
+import { Helmet } from "react-helmet";
+import { Plane, Loader2 } from "lucide-react";
 import PreferencesForm from "./components/PreferencesForm";
 import DestinationCard from "./components/DestinationCard";
 import ItineraryPlanner from "./components/ItineraryPlanner";
@@ -143,8 +144,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <Helmet>
+        <title>AI Travel Planner</title>
+        <meta
+          name="description"
+          content="Plan your dream trip with AI Travel Planner. Get personalized recommendations for destinations, itineraries, and accommodations."
+        />
+        <meta
+          name="keywords"
+          content="travel, AI, planner, destinations, itineraries, accommodations"
+        />
+      </Helmet>
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 py-2 sm:px-2 lg:px-4">
           <div className="flex items-center justify-between flex-col sm:flex-row">
             <div className="flex items-center">
               <Plane className="w-8 h-8 text-blue-600" />
@@ -158,14 +170,14 @@ function App() {
               </h1>
             </div>
 
-            <nav className="flex sm:flex-row flex-wrap space-x-4 sm:space-x-0 sm:flex-wrap text-sm flex-col sm:items-end sm:mt-4">
+            <nav className="flex sm:flex-row flex-wrap sm:space-x-0 sm:flex-wrap text-sm flex-col sm:mt-4 items-start content-start">
               <button
                 onClick={() => setActiveTab("preferences")}
                 className={`px-3 py-2 rounded-md ${
                   activeTab === "preferences"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                } sm:mr-2`}
+                } `}
               >
                 Preferences
               </button>
@@ -175,7 +187,7 @@ function App() {
                   activeTab === "destinations"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                } sm:mr-2`}
+                } `}
               >
                 Destinations
               </button>
@@ -185,7 +197,7 @@ function App() {
                   activeTab === "accommodations"
                     ? "bg-blue-100 text-blue-700"
                     : "text-gray-600 hover:bg-gray-100"
-                } sm:mr-2`}
+                } `}
               >
                 Accommodations
               </button>
@@ -194,7 +206,7 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#e4efff] to-[#e4efff]">
         {loading && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg flex items-center gap-3">
@@ -265,6 +277,21 @@ function App() {
           </div>
         )}
       </main>
+      <footer className="bg-white shadow-sm mt-8">
+        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            <p className="text-gray-600 text-center w-full">
+              &copy; {new Date().getFullYear()} AI Travel Planner. All rights
+              reserved.
+            </p>
+            {/* <nav className="flex space-x-4">
+              <a href="/privacy" className="text-gray-600 hover:text-gray-900">Privacy Policy</a>
+              <a href="/terms" className="text-gray-600 hover:text-gray-900">Terms of Service</a>
+              <a href="/contact" className="text-gray-600 hover:text-gray-900">Contact Us</a>
+            </nav> */}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
